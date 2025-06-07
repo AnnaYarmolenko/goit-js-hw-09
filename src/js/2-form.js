@@ -25,7 +25,7 @@ function handleInput(event) {
 
 emailInput.addEventListener('input', handleEmailInput);
 function handleEmailInput(event) {
-  const email = event.target.value;
+  const email = event.target.value.trim();
   formData.email = email;
   saveToLocalStorage();
 }
@@ -37,7 +37,17 @@ function saveToLocalStorage() {
 form.addEventListener('submit', handleSubmit);
 function handleSubmit(event) {
   event.preventDefault();
+  if (formData.email === '' || formData.message === '') {
+    alert('Поля форми не можуть бути порожніми');
+    return
+  }
+  if (!formData.email.includes('@')) {
+    alert('Email має містити символ "@"');
+    return;
+  }
   console.log(formData);
   localStorage.removeItem('feedback-form-state');
   form.reset();
+  formData.email = '';
+  formData.message = '';
 }
